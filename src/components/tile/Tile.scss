@@ -1,0 +1,33 @@
+.tile {
+  width: 100px;
+  height: 100px;
+
+
+  &.tile_clicked--blue {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 75px;
+      height: 75px;
+      top: 12.5px;
+      left: 12.5px;
+      background-color: blue;
+    }
+  }
+
+  &.tile_clicked--red {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 75px;
+      height: 75px;
+      top: 12.5px;
+      left: 12.5px;
+      background-color: red;
+    }
+  }
+}
