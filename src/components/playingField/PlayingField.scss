@@ -1,4 +1,6 @@
 .playingfield {
   display: grid;
   grid-template-columns: repeat(3, 100px);
+  overflow: hidden;
+  border-radius: 25px;
 }
