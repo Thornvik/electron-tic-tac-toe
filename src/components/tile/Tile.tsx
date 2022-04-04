@@ -14,8 +14,6 @@ const Tile = ( props: TileProps) => {
   const [classNames, setClassNames] = useState<string>('tile')
   const { turn, setTurn, playingField } = useContext(GameContext)
 
-  console.log(turn)
-
   useEffect(() => {
     if (clicked) {
       playingField[id] = turn
