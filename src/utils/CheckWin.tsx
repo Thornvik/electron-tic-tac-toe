@@ -1,16 +1,25 @@
 import { Turn, Players } from "../context/GameContext"
 
-export const checkWin = (playingField: Array<'' | Turn>, players: Players): string => {
+export const checkWin = (playingField: Array<'' | Turn>, players: Players) => {
+  let winner = ''
   // horisontal win
-  horisontalWin(playingField, players)
+  const hWin = horisontalWin(playingField, players)
 
   // vertical win
-  verticalWin(playingField, players)
+  const vWin = verticalWin(playingField, players)
 
   // diagonal win
-  diagonalWin(playingField, players)
+  const dWin = diagonalWin(playingField, players)
 
-  return ''
+  if (hWin) {
+    winner = hWin
+  } else if (vWin) {
+    winner = vWin
+  } else if (dWin) {
+    winner = dWin
+  }
+
+  return winner
 }
 
 const horisontalWin = (playingField: Array<'' | Turn>, players: Players): string => {
