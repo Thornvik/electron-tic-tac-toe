@@ -15,7 +15,7 @@ interface GameContextInterface {
   players: Players,
   turn: Turn,
   playingField: Array<'' | Turn>,
-  setTurn: (arg: any) => void
+  setTurn: (arg: Turn) => void
 }
 
 export const GameContext = createContext({} as GameContextInterface)
