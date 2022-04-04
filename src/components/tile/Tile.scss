@@ -3,31 +3,45 @@
   height: 100px;
 
 
-  &.tile_clicked--blue {
+  &.tile_clicked--cross {
     position: relative;
 
     &::before {
       content: '';
       position: absolute;
-      width: 75px;
+      width: 15px;
       height: 75px;
       top: 12.5px;
-      left: 12.5px;
-      background-color: blue;
+      left: 42.5px;
+      transform: rotate(45deg);
+      background-color: black;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 15px;
+      height: 75px;
+      top: 12.5px;
+      right: 42.5px;
+      transform: rotate(-45deg);
+      background-color: black;
     }
   }
 
-  &.tile_clicked--red {
+  &.tile_clicked--circle {
     position: relative;
 
     &::before {
+      box-sizing: border-box;
       content: '';
       position: absolute;
       width: 75px;
       height: 75px;
       top: 12.5px;
       left: 12.5px;
-      background-color: red;
+      border: solid 15px black;
+      border-radius: 50%;
     }
   }
 }
