@@ -1,7 +1,7 @@
 import React, { createContext, ReactElement, useState } from 'react'
 import { Props } from '../types/defaults'
 
-interface Players {
+export interface Players {
   p1: {name: string, score: number},
   p2: {name: string, score: number}
 }
