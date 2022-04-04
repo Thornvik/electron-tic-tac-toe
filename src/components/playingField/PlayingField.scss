@@ -1,6 +1,64 @@
-.playingfield {
-  display: grid;
-  grid-template-columns: repeat(3, 100px);
-  overflow: hidden;
-  border-radius: 25px;
+.playingfield_container {
+  position: relative;
+
+  .player {
+    position: absolute;
+
+    p {
+      font-size: 24px;
+    }
+
+    &:first-child {
+      bottom: 55px;
+      left: -100px;
+      transform: rotate(270deg);
+
+      &::before {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 40px;
+        top: -6px;
+        right: -60px;
+        transform: rotate(45deg);
+        background-color: black;
+      }
+  
+      &::after {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 40px;
+        top: -6px;
+        right: -60px;
+        transform: rotate(-45deg);
+        background-color: black;
+      }
+    }
+
+    &:nth-child(2) {
+      top: 55px;
+      right: -100px;
+      transform: rotate(-270deg);
+
+      &:before {
+        box-sizing: border-box;
+        content: '';
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        top: -6px;
+        right: -60px;
+        border: solid 10px black;
+        border-radius: 50%;
+      }
+    }
+  }
+  
+  .playingfield {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    overflow: hidden;
+    border-radius: 25px;
+  }
 }

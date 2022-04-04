@@ -16,10 +16,18 @@ const PlayingField = () => {
   }, [winner])
 
   return (
-    <div className="playingfield">
-      {[...Array(SIZE)].map((_, i) => (
-        <Tile id={i} key={i} light={i%2 === 0}/>
-      ))}
+    <div className="playingfield_container">
+      <div className="player">
+        <p>{players.p1.name.toLocaleUpperCase()}</p>
+      </div>
+      <div className="player">
+        <p>{players.p2.name.toLocaleUpperCase()}</p>
+      </div>
+      <div className="playingfield">
+        {[...Array(SIZE)].map((_, i) => (
+          <Tile id={i} key={i} light={i%2 === 0}/>
+        ))}
+      </div>
     </div>
   )
 }
