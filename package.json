@@ -46,6 +46,7 @@
         [
           "@electron-forge/plugin-webpack",
           {
+            "devContentSecurityPolicy":"default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;",
             "mainConfig": "./webpack.main.config.js",
             "renderer": {
               "config": "./webpack.renderer.config.js",
@@ -89,6 +90,7 @@
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "socket.io-client": "^4.4.1"
   }
 }
