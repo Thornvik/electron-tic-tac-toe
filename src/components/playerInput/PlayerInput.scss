@@ -1,0 +1,37 @@
+.playerinput {
+  display: flex;
+  flex-direction: column;
+  font-size: 24px;
+
+  .input {
+    font-size: 20px;
+    padding: 0 10px;
+    margin-bottom: 20px;
+    height: 50px;
+    width: 250px;
+    border-radius: 15px;
+    border: solid rgb(100, 150, 249) 1px;
+
+    &:active {
+      outline: none;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .playerinput--join_btn {
+    color: white;
+    font-size: 24px;
+    border-radius: 15px;
+    border: none;
+    height: 50px;
+    background-color: rgb(100, 150, 249);
+    transition: 0.3s;
+
+    &:hover {
+      background-color: rgb(0, 69, 208);
+    }
+  }
+}

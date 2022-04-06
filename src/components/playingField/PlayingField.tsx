@@ -27,6 +27,10 @@ const PlayingField = (props: PlayingFieldProps) => {
         console.log(newPlayingField)
         playingField = newPlayingField
       })
+
+      socket.on('roomData', (data: any) => {
+        console.log(data)
+      })
     }
   }, [playingField, socket])
 
