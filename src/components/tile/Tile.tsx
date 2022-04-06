@@ -5,11 +5,13 @@ import './Tile.scss'
 
 interface TileProps {
   light: boolean,
-  id: number
+  id: number,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  socket?: any
 }
 
 const Tile = ( props: TileProps) => {
-  const { light, id } = props
+  const { light, id, socket } = props
   const { clicked, clickHandler } = useTileClick()
   const [classNames, setClassNames] = useState<string>('tile')
   const { turn, setTurn, playingField } = useContext(GameContext)
@@ -17,6 +19,15 @@ const Tile = ( props: TileProps) => {
   useEffect(() => {
     if (clicked) {
       playingField[id] = turn
+
+      if (socket) {
+        socket.emit('playerMove', playingField, (newField: Array<'' | Turn>) => {
+          if (newField) {
+            console.log(newField)
+          }
+        })
+      }
+
       if (turn === Turn.p1) {
         setClassNames(classNames + ' tile_clicked--cross')
         return setTurn(Turn.p2)
@@ -24,7 +35,7 @@ const Tile = ( props: TileProps) => {
       setClassNames(classNames + ' tile_clicked--circle')
       return setTurn(Turn.p1)
     }
-  }, [clicked])
+  }, [clicked, socket])
 
   return (
     <div

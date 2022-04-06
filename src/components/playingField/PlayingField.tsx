@@ -1,19 +1,34 @@
 import React, { useContext, useEffect } from "react"
-import { GameContext } from "../../context/GameContext"
+import { GameContext, Turn } from "../../context/GameContext"
 import { checkWin } from "../../utils/CheckWin"
 import Tile from "../tile/Tile"
 import './PlayingField.scss'
 
 const SIZE = 9
+interface PlayingFieldProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  socket: any
+}
 
-const PlayingField = () => {
-  const { playingField, players } = useContext(GameContext)
+const PlayingField = (props: PlayingFieldProps) => {
+  const { socket } = props
+  const { players } = useContext(GameContext)
+  let { playingField } = useContext(GameContext)
   const winner = checkWin(playingField, players)
 
   useEffect(() => {
     if (!winner) return
     alert(winner + ' wins')
   }, [winner])
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('oponentMove', (newPlayingField: Array<'' | Turn>) => {
+        console.log(newPlayingField)
+        playingField = newPlayingField
+      })
+    }
+  }, [playingField, socket])
 
   return (
     <div className="playingfield_container">
@@ -25,7 +40,7 @@ const PlayingField = () => {
       </div>
       <div className="playingfield">
         {[...Array(SIZE)].map((_, i) => (
-          <Tile id={i} key={i} light={i%2 === 0}/>
+          <Tile id={i} key={i} light={i%2 === 0} socket={socket} />
         ))}
       </div>
     </div>
