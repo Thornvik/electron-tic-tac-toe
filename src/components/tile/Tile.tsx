@@ -7,11 +7,12 @@ interface TileProps {
   light: boolean,
   id: number,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  socket?: any
+  socket?: any,
+  disabled?: boolean
 }
 
 const Tile = ( props: TileProps) => {
-  const { light, id, socket } = props
+  const { light, id, socket, disabled } = props
   const { clicked, clickHandler } = useTileClick()
   const [classNames, setClassNames] = useState<string>('tile')
   const { turn, setTurn, playingField } = useContext(GameContext)
@@ -34,7 +35,9 @@ const Tile = ( props: TileProps) => {
       style={{ backgroundColor: light ? 'rgb(242, 242, 242)' : 'rgb(215, 215, 215)' }}
       className={classNames}
       tabIndex={0}
-      onClick={() => clickHandler()}
+      onClick={() => {
+        if (!disabled) clickHandler()
+      }}
     />
   )
 }

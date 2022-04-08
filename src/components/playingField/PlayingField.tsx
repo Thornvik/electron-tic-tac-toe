@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react"
-import { GameContext, Turn } from "../../context/GameContext"
+import React, { useContext, useEffect, useState } from "react"
+import { GameContext, Players, Turn } from "../../context/GameContext"
 import { checkWin } from "../../utils/CheckWin"
 import Tile from "../tile/Tile"
 import './PlayingField.scss'
@@ -12,9 +12,18 @@ interface PlayingFieldProps {
 
 const PlayingField = (props: PlayingFieldProps) => {
   const { socket } = props
-  const { players } = useContext(GameContext)
-  let { playingField, room } = useContext(GameContext)
+  let { playingField, room, players, turn } = useContext(GameContext)
+  const [usersInRoom, setUsersInRoom] = useState() as Array<any>
+  const [playersToDisplay, setPlayersToDisplay] = useState<Players>(players)
   const winner = checkWin(playingField, players)
+
+  const isPlayersTurn  = () => {
+    if (usersInRoom) {
+      if (turn === Turn.p1 && (usersInRoom[0].username === playersToDisplay.p1)) {
+        return true
+      } else return false
+    }
+  }
 
   useEffect(() => {
     if (!winner) return
@@ -28,22 +37,23 @@ const PlayingField = (props: PlayingFieldProps) => {
       })
 
       socket.on('roomData', (data: any) => {
-        room = data.room
+        setUsersInRoom(data.users)
+        setPlayersToDisplay(data.players)
       })
     }
-  }, [playingField, socket])
+  }, [playingField, socket, setPlayersToDisplay])
 
   return (
     <div className="playingfield_container">
       <div className="player">
-        <p>{players.p1.toLocaleUpperCase()}</p>
+        <p>{playersToDisplay.p1.toLocaleUpperCase()}</p>
       </div>
       <div className="player">
-        <p>{players.p2.toLocaleUpperCase()}</p>
+        <p>{playersToDisplay.p2.toLocaleUpperCase}</p>
       </div>
       <div className="playingfield">
         {[...Array(SIZE)].map((_, i) => (
-          <Tile id={i} key={i} light={i%2 === 0} socket={socket} />
+          <Tile id={i} key={i} light={i%2 === 0} socket={socket} disabled={!isPlayersTurn()} />
         ))}
       </div>
     </div>
