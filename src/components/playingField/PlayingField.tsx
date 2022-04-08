@@ -13,7 +13,7 @@ interface PlayingFieldProps {
 const PlayingField = (props: PlayingFieldProps) => {
   const { socket } = props
   const { players } = useContext(GameContext)
-  let { playingField } = useContext(GameContext)
+  let { playingField, room } = useContext(GameContext)
   const winner = checkWin(playingField, players)
 
   useEffect(() => {
@@ -24,12 +24,11 @@ const PlayingField = (props: PlayingFieldProps) => {
   useEffect(() => {
     if (socket) {
       socket.on('oponentMove', (newPlayingField: Array<'' | Turn>) => {
-        console.log(newPlayingField)
         playingField = newPlayingField
       })
 
       socket.on('roomData', (data: any) => {
-        console.log(data)
+        room = data.room
       })
     }
   }, [playingField, socket])

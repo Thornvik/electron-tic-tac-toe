@@ -16,18 +16,10 @@ const Tile = ( props: TileProps) => {
   const [classNames, setClassNames] = useState<string>('tile')
   const { turn, setTurn, playingField } = useContext(GameContext)
 
+
   useEffect(() => {
     if (clicked) {
       playingField[id] = turn
-
-      if (socket) {
-        socket.emit('playerMove', playingField, (newField: Array<'' | Turn>) => {
-          if (newField) {
-            console.log(newField)
-          }
-        })
-      }
-
       if (turn === Turn.p1) {
         setClassNames(classNames + ' tile_clicked--cross')
         return setTurn(Turn.p2)

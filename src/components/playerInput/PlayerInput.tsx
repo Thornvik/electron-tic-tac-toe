@@ -12,14 +12,13 @@ const PlayerInput = (props: PlayerInputProps) => {
   const { socket, joinCallback } = props
   const [username, setUsername] = useState('')
   const [room, setRoom] = useState('')
-  // const { players } = useContext(GameContext)
 
   const JoinRoom = () => {
     if (socket) {
-      console.log('join')
       socket.emit('join', { username, room }, (error: string) => {
         if (error) {
-          alert(error)
+          // handle error
+          return joinCallback(false)
         }
       })
 

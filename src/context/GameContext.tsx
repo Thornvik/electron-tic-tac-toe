@@ -15,7 +15,8 @@ interface GameContextInterface {
   players: Players,
   turn: Turn,
   playingField: Array<'' | Turn>,
-  setTurn: (arg: Turn) => void
+  setTurn: (arg: Turn) => void,
+  room: string
 }
 
 export const GameContext = createContext({} as GameContextInterface)
@@ -44,7 +45,7 @@ export const GameProvider = (props: Props): ReactElement => {
   const { children } = props
 
   const value = {
-    players, turn: currPlayer, playingField, setTurn: setCurrPlayer
+    players, turn: currPlayer, playingField, setTurn: setCurrPlayer, room: ''
   }
 
   return (
