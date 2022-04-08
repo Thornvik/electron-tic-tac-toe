@@ -17,7 +17,6 @@ interface GameContextInterface {
   turn: Turn,
   setTurn: (arg: Turn) => void,
   playingField: Array<'' | Turn>,
-  setPlayingField: (arg: Array<'' | Turn>) => void,
   room: string,
   setRoom: (arg: string) => void,
   username: string,
@@ -45,7 +44,6 @@ const defaultPlayingField: Array<'' | Turn> = [
 
 export const GameProvider = (props: Props): ReactElement => {
   const [turn, setTurn] = useState(Turn.p1)
-  const [playingField, setPlayingField] = useState(defaultPlayingField)
   const [players, setPlayers] = useState(defultPlayers)
   const [room, setRoom] = useState('')
   const [username, setUsername] = useState('')
@@ -57,8 +55,7 @@ export const GameProvider = (props: Props): ReactElement => {
     setPlayers,
     turn,
     setTurn,
-    playingField,
-    setPlayingField,
+    playingField: defaultPlayingField,
     room,
     setRoom,
     username,
