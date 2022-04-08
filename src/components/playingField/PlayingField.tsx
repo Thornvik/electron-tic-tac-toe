@@ -36,10 +36,10 @@ const PlayingField = (props: PlayingFieldProps) => {
   return (
     <div className="playingfield_container">
       <div className="player">
-        <p>{players.p1.name.toLocaleUpperCase()}</p>
+        <p>{players.p1.toLocaleUpperCase()}</p>
       </div>
       <div className="player">
-        <p>{players.p2.name.toLocaleUpperCase()}</p>
+        <p>{players.p2.toLocaleUpperCase()}</p>
       </div>
       <div className="playingfield">
         {[...Array(SIZE)].map((_, i) => (

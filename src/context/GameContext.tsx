@@ -2,8 +2,8 @@ import React, { createContext, ReactElement, useState } from 'react'
 import { Props } from '../types/defaults'
 
 export interface Players {
-  p1: {name: string},
-  p2: {name: string}
+  p1: string,
+  p2: string
 }
 
 export enum Turn {
@@ -22,8 +22,8 @@ interface GameContextInterface {
 export const GameContext = createContext({} as GameContextInterface)
 
 const players: Players = {
-  p1: { name: 'player one' },
-  p2: { name: 'player two' }
+  p1: 'player one' ,
+  p2: 'player two'
 }
 
 const playingField: Array<'' | Turn> = [
