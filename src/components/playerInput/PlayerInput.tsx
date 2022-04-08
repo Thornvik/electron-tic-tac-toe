@@ -10,19 +10,20 @@ interface PlayerInputProps {
 
 const PlayerInput = (props: PlayerInputProps) => {
   const { socket, joinCallback } = props
-  const [username, setUsername] = useState('')
-  const [room, setRoom] = useState('')
+  const [roomInput, setRoomInput] = useState('')
+  const [usernameInput, setUsernameInput] = useState('')
   const { players } = useContext(GameContext)
+  const { setUsername } = useContext(GameContext)
 
   const JoinRoom = () => {
     if (socket) {
-      socket.emit('join', { username, room, players }, (error: string) => {
+      socket.emit('join', { username: usernameInput, room: roomInput, players }, (error: string) => {
         if (error) {
           // handle error
           return joinCallback(false)
         }
+        setUsername(usernameInput)
       })
-
       joinCallback(true)
     }
   }
@@ -33,15 +34,15 @@ const PlayerInput = (props: PlayerInputProps) => {
         className="input"
         type="text"
         placeholder="username"
-        onChange={(e) => {setUsername(e.target.value)}}
-        value={username}
+        onChange={(e) => {setUsernameInput(e.target.value)}}
+        value={usernameInput}
       />
       <input
         className="input"
         type="text"
         placeholder="room"
-        onChange={(e) => {setRoom(e.target.value)}}
-        value={room}
+        onChange={(e) => {setRoomInput(e.target.value)}}
+        value={roomInput}
       />
 
       <button
@@ -50,8 +51,6 @@ const PlayerInput = (props: PlayerInputProps) => {
       >
         Join
       </button>
-
-      {/* <button>Play offline</button> */}
     </div>
   )
 }
