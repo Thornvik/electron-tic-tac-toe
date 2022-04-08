@@ -23,6 +23,7 @@
     "space-before-blocks": "warn",
     "object-curly-spacing": ["warn", "always"],
     "prefer-const": "off",
+    "no-empty": "warn",
     
     "import/no-cycle": 0,
     "import/prefer-default-export": "off",

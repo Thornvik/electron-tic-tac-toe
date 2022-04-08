@@ -13,21 +13,25 @@ export enum Turn {
 
 interface GameContextInterface {
   players: Players,
+  setPlayers: (arg: Players) => void,
   turn: Turn,
-  playingField: Array<'' | Turn>,
   setTurn: (arg: Turn) => void,
-  room: string
+  playingField: Array<'' | Turn>,
+  setPlayingField: (arg: Array<'' | Turn>) => void,
+  room: string,
+  setRoom: (arg: string) => void,
+  username: string,
+  setUsername: (arg: string) => void
 }
 
 export const GameContext = createContext({} as GameContextInterface)
 
-const players: Players = {
+const defultPlayers: Players = {
   p1: 'player one' ,
   p2: 'player two'
 }
 
-const playingField: Array<'' | Turn> = [
-  '',
+const defaultPlayingField: Array<'' | Turn> = [
   '',
   '',
   '',
@@ -40,12 +44,25 @@ const playingField: Array<'' | Turn> = [
 ]
 
 export const GameProvider = (props: Props): ReactElement => {
-  const [currPlayer, setCurrPlayer] = useState<Turn>(Turn.p1)
+  const [turn, setTurn] = useState(Turn.p1)
+  const [playingField, setPlayingField] = useState(defaultPlayingField)
+  const [players, setPlayers] = useState(defultPlayers)
+  const [room, setRoom] = useState('')
+  const [username, setUsername] = useState('')
 
   const { children } = props
 
   const value = {
-    players, turn: currPlayer, playingField, setTurn: setCurrPlayer, room: ''
+    players,
+    setPlayers,
+    turn,
+    setTurn,
+    playingField,
+    setPlayingField,
+    room,
+    setRoom,
+    username,
+    setUsername
   }
 
   return (
