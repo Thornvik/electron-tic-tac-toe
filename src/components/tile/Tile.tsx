@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { GameContext, Turn } from '../../context/GameContext'
 import useTileClick from '../../hooks/useTileClick'
 import './Tile.scss'
@@ -18,19 +18,28 @@ const Tile = ( props: TileProps) => {
   const [classNames, setClassNames] = useState<string>('tile')
   const { turn, setTurn, playingField } = useContext(GameContext)
 
-  const click = () => {
-    socket.emit('playerMove', playingField)
+  const checkClicked = () => {
+    if (playingField[id] === '') return
 
-    clickHandler(id, turn)
-
-    if (turn === Turn.p1 && playingField[id] === 1) {
+    if (playingField[id] === 1) {
       setClassNames(classNames + ' tile_clicked--cross')
-      return setTurn(Turn.p2)
     }
 
     setClassNames(classNames + ' tile_clicked--circle')
-    return setTurn(Turn.p1)
   }
+
+  const click = () => {
+    let currPlayingField = playingField
+    currPlayingField[id] = turn
+    socket.emit('playerMove', currPlayingField)
+
+    clickHandler(id, turn)
+    checkClicked()
+  }
+
+  useEffect(() => {
+    checkClicked()
+  }, [playingField])
 
   return (
     <div
