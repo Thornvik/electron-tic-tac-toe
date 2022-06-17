@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { GameContext, Turn } from '../../context/GameContext'
 import useTileClick from '../../hooks/useTileClick'
 import './Tile.scss'

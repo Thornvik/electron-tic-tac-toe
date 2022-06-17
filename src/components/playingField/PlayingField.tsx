@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect } from "react"
 import { GameContext, Players, Turn } from "../../context/GameContext"
 import { checkWin } from "../../utils/CheckWin"
 import './PlayingField.scss'
@@ -24,7 +24,6 @@ interface PlayingFieldProps {
 const PlayingField = (props: PlayingFieldProps) => {
   const { socket } = props
   let { playingField, setPlayingField, players, setPlayers, setTurn } = useContext(GameContext)
-  const [usersInRoom, setUsersInRoom] = useState<Array<Users>>()
   const winner = checkWin(playingField, players)
 
   useEffect(() => {
@@ -44,7 +43,7 @@ const PlayingField = (props: PlayingFieldProps) => {
       })
     }
 
-  }, [socket, setUsersInRoom, setPlayers, playingField])
+  }, [socket, setPlayers, playingField])
 
   return (
     <div className="playingfield_container">

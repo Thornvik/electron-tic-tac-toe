@@ -13,7 +13,7 @@ const PlayerInput = (props: PlayerInputProps) => {
   const [roomInput, setRoomInput] = useState('')
   const [usernameInput, setUsernameInput] = useState('')
   const { players } = useContext(GameContext)
-  const { setUsername, username } = useContext(GameContext)
+  const { setUsername } = useContext(GameContext)
 
   const JoinRoom = () => {
     if (socket) {
