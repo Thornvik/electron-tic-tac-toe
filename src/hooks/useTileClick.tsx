@@ -1,10 +1,16 @@
-import React, { useState } from 'react'
+import { useContext, useState } from 'react'
+import { Turn, GameContext } from '../context/GameContext'
 
-const useTileClick = () =>{
-  const [clicked, setClicked] = useState(false)
+const useTileClick = (checked: boolean) => {
+  let { playingField, setPlayingField } = useContext(GameContext)
+  const [clicked, setClicked] = useState(checked)
 
-  const clickHandler = () => {
-    if (!clicked) setClicked(true)
+  const clickHandler = (id: number, turn: Turn) => {
+    if (!clicked) {
+      setClicked(true)
+      playingField[id] = turn
+      setPlayingField(playingField)
+    }
   }
 
   return { clickHandler, clicked }

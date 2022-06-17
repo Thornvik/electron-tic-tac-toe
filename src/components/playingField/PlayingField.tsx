@@ -1,13 +1,29 @@
 import React, { useContext, useEffect } from "react"
-import { GameContext } from "../../context/GameContext"
+import { GameContext, Players, Turn } from "../../context/GameContext"
 import { checkWin } from "../../utils/CheckWin"
-import Tile from "../tile/Tile"
 import './PlayingField.scss'
+import Tiles from "./tiles/Tiles"
 
-const SIZE = 9
+interface RoomData {
+  players: Players,
+  room: string,
+  users: Array<Users>
+}
 
-const PlayingField = () => {
-  const { playingField, players } = useContext(GameContext)
+interface Users {
+  id: string,
+  username: string,
+  room: string
+}
+
+interface PlayingFieldProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  socket: any
+}
+
+const PlayingField = (props: PlayingFieldProps) => {
+  const { socket } = props
+  let { playingField, setPlayingField, players, setPlayers, setTurn } = useContext(GameContext)
   const winner = checkWin(playingField, players)
 
   useEffect(() => {
@@ -15,19 +31,32 @@ const PlayingField = () => {
     alert(winner + ' wins')
   }, [winner])
 
+  useEffect(() => {
+    if (socket) {
+      socket.on('oponentMove', (newPlayingField: Array<'' | Turn>, turn: Turn) => {
+        setPlayingField(newPlayingField)
+        setTurn(turn)
+      })
+
+      socket.on('roomData', (data: RoomData) => {
+        setPlayers(data.players)
+      })
+    }
+
+  }, [socket, setPlayers, playingField])
+
   return (
     <div className="playingfield_container">
       <div className="player">
-        <p>{players.p1.name.toLocaleUpperCase()}</p>
+        <p>{players.p1.toLocaleUpperCase()}</p>
       </div>
       <div className="player">
-        <p>{players.p2.name.toLocaleUpperCase()}</p>
+        <p>{players.p2.toLocaleUpperCase()}</p>
       </div>
-      <div className="playingfield">
-        {[...Array(SIZE)].map((_, i) => (
-          <Tile id={i} key={i} light={i%2 === 0}/>
-        ))}
-      </div>
+      <Tiles
+        currPlayingField={playingField}
+        socket={socket}
+      />
     </div>
   )
 }

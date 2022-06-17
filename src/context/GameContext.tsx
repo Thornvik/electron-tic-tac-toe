@@ -2,8 +2,8 @@ import React, { createContext, ReactElement, useState } from 'react'
 import { Props } from '../types/defaults'
 
 export interface Players {
-  p1: {name: string},
-  p2: {name: string}
+  p1: string,
+  p2: string
 }
 
 export enum Turn {
@@ -13,20 +13,25 @@ export enum Turn {
 
 interface GameContextInterface {
   players: Players,
+  setPlayers: (arg: Players) => void,
   turn: Turn,
+  setTurn: (arg: Turn) => void,
   playingField: Array<'' | Turn>,
-  setTurn: (arg: Turn) => void
+  setPlayingField: (arg: Array<'' | Turn>) => void,
+  room: string,
+  setRoom: (arg: string) => void,
+  username: string,
+  setUsername: (arg: string) => void
 }
 
 export const GameContext = createContext({} as GameContextInterface)
 
-const players: Players = {
-  p1: { name: 'player one' },
-  p2: { name: 'player two' }
+const defultPlayers: Players = {
+  p1: 'player one' ,
+  p2: 'player two'
 }
 
-const playingField: Array<'' | Turn> = [
-  '',
+const defaultPlayingField: Array<'' | Turn> = [
   '',
   '',
   '',
@@ -39,12 +44,25 @@ const playingField: Array<'' | Turn> = [
 ]
 
 export const GameProvider = (props: Props): ReactElement => {
-  const [currPlayer, setCurrPlayer] = useState<Turn>(Turn.p1)
+  const [turn, setTurn] = useState(Turn.p1)
+  const [players, setPlayers] = useState(defultPlayers)
+  const [room, setRoom] = useState('')
+  const [username, setUsername] = useState('')
+  const [playingField, setPlayingField] = useState(defaultPlayingField)
 
   const { children } = props
 
   const value = {
-    players, turn: currPlayer, playingField, setTurn: setCurrPlayer
+    players,
+    setPlayers,
+    turn,
+    setTurn,
+    playingField,
+    setPlayingField,
+    room,
+    setRoom,
+    username,
+    setUsername
   }
 
   return (

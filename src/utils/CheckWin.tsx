@@ -28,13 +28,13 @@ const horisontalWin = (playingField: Array<'' | Turn>, players: Players): string
     (playingField[3] === Turn.p1 && playingField[4] === Turn.p1 && playingField[5] === Turn.p1) ||
     (playingField[6] === Turn.p1 && playingField[7] === Turn.p1 && playingField[8]=== Turn.p1)
   ) {
-    return players.p1.name
+    return players.p1
   } else if (
     (playingField[0] === Turn.p2 && playingField[1] === Turn.p2 && playingField[2] === Turn.p2) ||
     (playingField[3] === Turn.p2 && playingField[4] === Turn.p2 && playingField[5] === Turn.p2) ||
     (playingField[6] === Turn.p2 && playingField[7] === Turn.p2 && playingField[8] === Turn.p2)
   ) {
-    return players.p2.name
+    return players.p2
   }
 }
 
@@ -44,13 +44,13 @@ const verticalWin = (playingField: Array<'' | Turn>, players: Players): string =
     (playingField[1] === Turn.p1 && playingField[4] === Turn.p1 && playingField[7] === Turn.p1) ||
     (playingField[2] === Turn.p1 && playingField[5] === Turn.p1 && playingField[8]=== Turn.p1)
   ) {
-    return players.p1.name
+    return players.p1
   } else if (
     (playingField[0] === Turn.p2 && playingField[3] === Turn.p2 && playingField[6] === Turn.p2) ||
     (playingField[1] === Turn.p2 && playingField[4] === Turn.p2 && playingField[7] === Turn.p2) ||
     (playingField[2] === Turn.p2 && playingField[5] === Turn.p2 && playingField[8]=== Turn.p2)
   ) {
-    return players.p2.name
+    return players.p2
   }
 }
 
@@ -59,11 +59,11 @@ const diagonalWin = (playingField: Array<'' | Turn>, players: Players): string =
     (playingField[0] === Turn.p1 && playingField[4] === Turn.p1 && playingField[8] === Turn.p1) ||
     (playingField[2] === Turn.p1 && playingField[4] === Turn.p1 && playingField[6] === Turn.p1)
   ) {
-    return players.p1.name + ' wins'
+    return players.p1 + ' wins'
   } else if (
     (playingField[0] === Turn.p2 && playingField[4] === Turn.p2 && playingField[8] === Turn.p2) ||
     (playingField[2] === Turn.p2 && playingField[4] === Turn.p2 && playingField[6] === Turn.p2)
   ) {
-    return players.p2.name + ' wins'
+    return players.p2 + ' wins'
   }
 }
