@@ -23,8 +23,7 @@ interface PlayingFieldProps {
 
 const PlayingField = (props: PlayingFieldProps) => {
   const { socket } = props
-  let { playingField, setPlayingField, players, setPlayers, turn, username } = useContext(GameContext)
-  const [currentPlayingField, setCurrentPlayingField] = useState<Array<'' | Turn>>(playingField)
+  let { playingField, setPlayingField, players, setPlayers, setTurn } = useContext(GameContext)
   const [usersInRoom, setUsersInRoom] = useState<Array<Users>>()
   const winner = checkWin(playingField, players)
 
@@ -35,9 +34,9 @@ const PlayingField = (props: PlayingFieldProps) => {
 
   useEffect(() => {
     if (socket) {
-      socket.on('oponentMove', (newPlayingField: Array<'' | Turn>) => {
+      socket.on('oponentMove', (newPlayingField: Array<'' | Turn>, turn: Turn) => {
         setPlayingField(newPlayingField)
-        console.log(playingField)
+        setTurn(turn)
       })
 
       socket.on('roomData', (data: RoomData) => {

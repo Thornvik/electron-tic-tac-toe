@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
 import { GameContext, Turn } from '../../context/GameContext'
 import useTileClick from '../../hooks/useTileClick'
 import './Tile.scss'
@@ -12,29 +12,37 @@ interface TileProps {
   disabled?: boolean
 }
 
-const Tile = ( props: TileProps) => {
+const Tile = (props: TileProps) => {
   const { light, id, socket, disabled, checked } = props
   const { clicked, clickHandler } = useTileClick(checked)
   const [classNames, setClassNames] = useState<string>('tile')
-  const { turn, setTurn, playingField } = useContext(GameContext)
+  const { turn, playingField, players, username } = useContext(GameContext)
 
   const checkClicked = () => {
     if (playingField[id] === '') return
 
-    if (playingField[id] === 1) {
-      setClassNames(classNames + ' tile_clicked--cross')
+    if (playingField[id] === Turn.p1) {
+      return setClassNames(classNames + ' tile_clicked--cross')
     }
 
-    setClassNames(classNames + ' tile_clicked--circle')
+    return setClassNames(classNames + ' tile_clicked--circle')
   }
 
   const click = () => {
     let currPlayingField = playingField
-    currPlayingField[id] = turn
-    socket.emit('playerMove', currPlayingField)
 
-    clickHandler(id, turn)
-    checkClicked()
+    if (username === players.p1 && turn === Turn.p1) {
+      currPlayingField[id] = Turn.p1
+      socket.emit('playerMove', currPlayingField, Turn.p2)
+      clickHandler(id, turn)
+      checkClicked()
+    }
+    if (username === players.p2 && turn === Turn.p2) {
+      currPlayingField[id] = Turn.p2
+      socket.emit('playerMove', currPlayingField, Turn.p1)
+      clickHandler(id, turn)
+      checkClicked()
+    }
   }
 
   useEffect(() => {
