@@ -18,7 +18,6 @@ const PlayerInput = (props: PlayerInputProps) => {
     if (socket) {
       socket.emit('join', { username: usernameInput, room: roomInput, players }, (error: string) => {
         if (error) {
-          // handle error
           setError(error)
           setUsername('')
           return joinCallback(false)
