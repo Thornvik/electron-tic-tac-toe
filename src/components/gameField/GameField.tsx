@@ -3,6 +3,7 @@ import socketIOClient from "socket.io-client"
 import './GameField.scss'
 import PlayingField from '../playingField/PlayingField'
 import { GameProvider } from '../../context/GameContext'
+import { UserProvider } from '../../context/UserContext'
 import PlayerInput from '../playerInput/PlayerInput'
 
 const ENDPOINT = "http://localhost:3001/"
@@ -23,12 +24,14 @@ const GameField = () => {
 
   return (
     <GameProvider>
-      <div className='gamefield'>
-        { !isOnline && (
-          <PlayerInput socket={socket} joinCallback={setIsOnline} />
-        )}
-        { isOnline && <PlayingField socket={socket} />}
-      </div>
+      <UserProvider>
+        <div className='gamefield'>
+          { !isOnline && (
+            <PlayerInput socket={socket} joinCallback={setIsOnline} />
+          )}
+          { isOnline && <PlayingField socket={socket} />}
+        </div>
+      </UserProvider>
     </GameProvider>
   )
 }

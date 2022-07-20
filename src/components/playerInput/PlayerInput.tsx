@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react"
+import { AppContext } from "../../context/AppContext"
 import { GameContext } from "../../context/GameContext"
+import { UserContext } from "../../context/UserContext"
 import './PlayerInput.scss'
 
 interface PlayerInputProps {
@@ -12,7 +14,9 @@ const PlayerInput = (props: PlayerInputProps) => {
   const { socket, joinCallback } = props
   const [roomInput, setRoomInput] = useState('')
   const [usernameInput, setUsernameInput] = useState('')
-  const { players, setUsername, error, setError } = useContext(GameContext)
+  const { error, setError } = useContext(AppContext)
+  const { players } = useContext(GameContext)
+  const { setUsername } = useContext(UserContext)
 
   const JoinRoom = () => {
     if (socket) {
