@@ -11,6 +11,10 @@ export enum Turn {
   p2 = 2
 }
 
+interface ErrorInterface {
+  errorMessage: string
+}
+
 interface GameContextInterface {
   players: Players,
   setPlayers: (arg: Players) => void,
@@ -21,7 +25,9 @@ interface GameContextInterface {
   room: string,
   setRoom: (arg: string) => void,
   username: string,
-  setUsername: (arg: string) => void
+  setUsername: (arg: string) => void,
+  error: string | undefined
+  setError: (arg: string | undefined) => void
 }
 
 export const GameContext = createContext({} as GameContextInterface)
@@ -49,6 +55,7 @@ export const GameProvider = (props: Props): ReactElement => {
   const [room, setRoom] = useState('')
   const [username, setUsername] = useState('')
   const [playingField, setPlayingField] = useState(defaultPlayingField)
+  const [error, setError] = useState(undefined)
 
   const { children } = props
 
@@ -62,7 +69,9 @@ export const GameProvider = (props: Props): ReactElement => {
     room,
     setRoom,
     username,
-    setUsername
+    setUsername,
+    error,
+    setError
   }
 
   return (
