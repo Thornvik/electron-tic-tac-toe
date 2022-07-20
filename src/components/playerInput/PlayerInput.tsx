@@ -1,3 +1,4 @@
+import { AppContext } from "../../context/AppContext"
 import React, { useContext, useState } from "react"
 import { GameContext } from "../../context/GameContext"
 import './PlayerInput.scss'
@@ -12,7 +13,8 @@ const PlayerInput = (props: PlayerInputProps) => {
   const { socket, joinCallback } = props
   const [roomInput, setRoomInput] = useState('')
   const [usernameInput, setUsernameInput] = useState('')
-  const { players, setUsername, error, setError } = useContext(GameContext)
+  const { players, setUsername } = useContext(GameContext)
+  const { error, setError } = useContext(AppContext)
 
   const JoinRoom = () => {
     if (socket) {
