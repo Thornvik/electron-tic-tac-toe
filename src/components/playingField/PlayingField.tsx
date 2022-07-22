@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { GameContext, Players, Turn } from "../../context/GameContext"
 import { checkWin } from "../../utils/CheckWin"
-import './PlayingField.scss'
+import GameOverModal from "../gameOverModal/GameOverModal"
 import Tiles from "./tiles/Tiles"
+import './PlayingField.scss'
 
 interface RoomData {
   players: Players,
@@ -23,13 +24,8 @@ interface PlayingFieldProps {
 
 const PlayingField = (props: PlayingFieldProps) => {
   const { socket } = props
-  let { playingField, setPlayingField, players, setPlayers, setTurn } = useContext(GameContext)
-  const winner = checkWin(playingField, players)
-
-  useEffect(() => {
-    if (!winner) return
-    alert(winner + ' wins')
-  }, [winner])
+  const { playingField, setPlayingField, players, setPlayers, setTurn, gameOver, setGameOver } = useContext(GameContext)
+  const [winner, setWinner] = useState('')
 
   useEffect(() => {
     if (socket) {
@@ -41,23 +37,30 @@ const PlayingField = (props: PlayingFieldProps) => {
       socket.on('roomData', (data: RoomData) => {
         setPlayers(data.players)
       })
-    }
 
+      socket.on('victory', (winner: string) => {
+        setGameOver(true)
+        setWinner(winner)
+      })
+    }
   }, [socket, setPlayers, playingField])
 
   return (
-    <div className="playingfield_container">
-      <div className="player">
-        <p>{players.p1.toLocaleUpperCase()}</p>
+    <>
+      { gameOver && <GameOverModal winner={winner} /> }
+      <div className="playingfield_container">
+        <div className="player">
+          <p>{players.p1.toLocaleUpperCase()}</p>
+        </div>
+        <div className="player">
+          <p>{players.p2.toLocaleUpperCase()}</p>
+        </div>
+        <Tiles
+          currPlayingField={playingField}
+          socket={socket}
+        />
       </div>
-      <div className="player">
-        <p>{players.p2.toLocaleUpperCase()}</p>
-      </div>
-      <Tiles
-        currPlayingField={playingField}
-        socket={socket}
-      />
-    </div>
+    </>
   )
 }
 
