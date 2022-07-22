@@ -1,0 +1,25 @@
+.gameOverModal--overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  backdrop-filter: blur(5px);
+
+  .gameOverModal--box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-150px, -100px);
+    width: 300px;
+    height: 200px;
+    padding: 15px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: aquamarine;
+  }
+}
