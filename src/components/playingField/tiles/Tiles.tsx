@@ -27,7 +27,6 @@ const Tiles = (props: TilesProps) => {
           light={i % 2 === 0}
           checked={isChecked(i, currPlayingField)}
           socket={socket}
-        // disabled={!isPlayersTurn()}
         />
       ))}
     </div>
