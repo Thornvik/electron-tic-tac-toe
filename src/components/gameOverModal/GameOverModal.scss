@@ -11,15 +11,61 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-150px, -100px);
-    width: 300px;
-    height: 200px;
+    transform: translate(-125px, -60px);
+    width: 250px;
+    height: 120px;
     padding: 15px;
     border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    background-color: aquamarine;
+    background-color: #efefef;
+
+    .close--btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 10px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .replayOrCancle--container {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+      font-weight: bold;
+      letter-spacing: 2px;
+
+      .cancle--btn {
+        padding: 10px 25px;
+        width: 50%;
+        border-radius: 0 0 0 10px;
+        background-color: #ff2727;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .replay--btn {
+        padding: 10px 25px;
+        width: 50%;
+        border-radius: 0 0 10px 0;
+        background-color: #3ed101;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
   }
 }

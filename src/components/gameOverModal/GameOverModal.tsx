@@ -9,12 +9,29 @@ interface GameOverModalInterface {
 const GameOverModal = (props: GameOverModalInterface) => {
   const { winner } = props
 
+  const reloadPage = () => {
+    window.location.reload()
+  }
+
   return (
     <div className="gameOverModal--overlay">
       <div className="gameOverModal--box">
-        {/* Close modal button */}
-        The game has finished, player: {winner} has won
-        {/* close and replay button */}
+        <div
+          onClick={() => reloadPage()}
+          className="close--btn"
+        >
+          &#10060;
+        </div>
+        <p>{winner} has won</p>
+        <div className="replayOrCancle--container">
+          <div
+            onClick={() => reloadPage()}
+            className="cancle--btn"
+          >
+            cancle
+          </div>
+          <div className="replay--btn">replay</div>
+        </div>
       </div>
     </div>
   )
