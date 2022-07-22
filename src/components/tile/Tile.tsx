@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { checkWin } from '../../utils/CheckWin'
 import { GameContext, Turn } from '../../context/GameContext'
 import { UserContext } from '../../context/UserContext'
 import useTileClick from '../../hooks/useTileClick'
@@ -19,6 +20,13 @@ const Tile = (props: TileProps) => {
   const [classNames, setClassNames] = useState<string>('tile')
   const { turn, playingField, setPlayingField, players } = useContext(GameContext)
   const { username } = useContext(UserContext)
+
+  const winner = checkWin(playingField, players)
+
+  useEffect(() => {
+    if (!winner) return
+    socket.emit('playerWin')
+  }, [winner])
 
   const checkClicked = () => {
     if (playingField[id] === '') return
@@ -42,6 +50,11 @@ const Tile = (props: TileProps) => {
       currPlayingField[id] = Turn.p2
       socket.emit('playerMove', currPlayingField, Turn.p1)
       clickHandler(id, turn)
+    }
+
+    if(checkWin(playingField, players)) {
+      console.log(username)
+      socket.emit('playerWin', username)
     }
   }
 
