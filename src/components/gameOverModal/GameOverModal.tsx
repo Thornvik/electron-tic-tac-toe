@@ -4,10 +4,11 @@ import "./GameOverModal.scss"
 
 interface GameOverModalInterface {
   winner: string
+  replay: () => void
 }
 
 const GameOverModal = (props: GameOverModalInterface) => {
-  const { winner } = props
+  const { winner, replay } = props
 
   const reloadPage = () => {
     window.location.reload()
@@ -30,7 +31,12 @@ const GameOverModal = (props: GameOverModalInterface) => {
           >
             cancle
           </div>
-          <div className="replay--btn">replay</div>
+          <div
+            onClick={() => replay()}
+            className="replay--btn"
+          >
+            replay
+          </div>
         </div>
       </div>
     </div>
