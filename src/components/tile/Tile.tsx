@@ -15,9 +15,9 @@ interface TileProps {
 
 const Tile = (props: TileProps) => {
   const { light, id, socket, disabled, checked } = props
-  const { clicked, clickHandler } = useTileClick(checked)
+  const { clickHandler } = useTileClick(checked)
   const [classNames, setClassNames] = useState<string>('tile')
-  const { turn, playingField, players } = useContext(GameContext)
+  const { turn, playingField, setPlayingField, players } = useContext(GameContext)
   const { username } = useContext(UserContext)
 
   const checkClicked = () => {
@@ -37,13 +37,11 @@ const Tile = (props: TileProps) => {
       currPlayingField[id] = Turn.p1
       socket.emit('playerMove', currPlayingField, Turn.p2)
       clickHandler(id, turn)
-      checkClicked()
     }
     if (username === players.p2 && turn === Turn.p2) {
       currPlayingField[id] = Turn.p2
       socket.emit('playerMove', currPlayingField, Turn.p1)
       clickHandler(id, turn)
-      checkClicked()
     }
   }
 
@@ -57,8 +55,8 @@ const Tile = (props: TileProps) => {
       className={classNames}
       tabIndex={0}
       onClick={() => {
-        if (clicked || disabled || !socket) return
-        click()
+        if (playingField[id] === '') click()
+        return
       }}
     />
   )
