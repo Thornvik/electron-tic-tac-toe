@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
 import { GameContext, Players, Turn } from "../../context/GameContext"
-import { checkWin } from "../../utils/CheckWin"
 import GameOverModal from "../gameOverModal/GameOverModal"
 import Tiles from "./tiles/Tiles"
 import './PlayingField.scss'
@@ -24,8 +23,33 @@ interface PlayingFieldProps {
 
 const PlayingField = (props: PlayingFieldProps) => {
   const { socket } = props
-  const { playingField, setPlayingField, players, setPlayers, setTurn, gameOver, setGameOver } = useContext(GameContext)
+  const {
+    playingField,
+    setPlayingField,
+    players,
+    setPlayers,
+    setTurn,
+    gameOver,
+    setGameOver,
+    turn
+  } = useContext(GameContext)
   const [winner, setWinner] = useState('')
+
+  const replay = () => {
+    socket.emit('playerMove', [
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      ''
+    ], turn)
+    setWinner('')
+    setGameOver(false)
+  }
 
   useEffect(() => {
     if (socket) {
@@ -43,11 +67,11 @@ const PlayingField = (props: PlayingFieldProps) => {
         setWinner(winner)
       })
     }
-  }, [socket, setPlayers, playingField])
+  }, [socket, setPlayers, playingField, replay])
 
   return (
     <>
-      { gameOver && <GameOverModal winner={winner} /> }
+      { gameOver && <GameOverModal winner={winner} replay={replay} /> }
       <div className="playingfield_container">
         <div className="player">
           <p>{players.p1.toLocaleUpperCase()}</p>
@@ -56,7 +80,6 @@ const PlayingField = (props: PlayingFieldProps) => {
           <p>{players.p2.toLocaleUpperCase()}</p>
         </div>
         <Tiles
-          currPlayingField={playingField}
           socket={socket}
         />
       </div>

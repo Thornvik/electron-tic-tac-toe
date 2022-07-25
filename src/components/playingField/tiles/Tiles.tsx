@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Tile from '../../tile/Tile'
-import { Turn } from '../../../context/GameContext'
+import { GameContext, Turn } from '../../../context/GameContext'
 
 interface TilesProps {
-  currPlayingField: Array<'' | Turn>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   socket: any
 }
 
 const Tiles = (props: TilesProps) => {
-  const { currPlayingField, socket } = props
+  const { playingField } = useContext(GameContext)
+  const { socket } = props
+  const [currPlayingField, setCurrPlayingField] = useState(playingField)
 
   const isChecked = (id: number, playingField: Array<'' | Turn>) => {
     if (playingField[id] === '') return false
@@ -18,6 +19,10 @@ const Tiles = (props: TilesProps) => {
     }
   }
 
+  useEffect(() => {
+    setCurrPlayingField(playingField)
+  }, [playingField, currPlayingField, setCurrPlayingField])
+
   return (
     <div className="playingfield">
       {currPlayingField.map((_, i) => (
@@ -25,7 +30,7 @@ const Tiles = (props: TilesProps) => {
           id={i}
           key={i}
           light={i % 2 === 0}
-          checked={isChecked(i, currPlayingField)}
+          checked={isChecked(i, playingField)}
           socket={socket}
         />
       ))}

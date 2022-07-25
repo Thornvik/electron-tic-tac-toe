@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
-import { GameContext } from "../../context/GameContext"
+import React from "react"
 import "./GameOverModal.scss"
 
 interface GameOverModalInterface {

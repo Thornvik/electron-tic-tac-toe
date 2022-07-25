@@ -18,6 +18,8 @@ interface GameContextInterface {
   setTurn: (arg: Turn) => void,
   playingField: Array<'' | Turn>,
   setPlayingField: (arg: Array<'' | Turn>) => void,
+  gameOver: boolean
+  setGameOver: (arg: boolean) => void
 }
 
 export const GameContext = createContext({} as GameContextInterface)
@@ -27,7 +29,7 @@ const defultPlayers: Players = {
   p2: 'player two'
 }
 
-const defaultPlayingField: Array<'' | Turn> = [
+export const defaultPlayingField: Array<'' | Turn> = [
   '',
   '',
   '',
@@ -43,6 +45,7 @@ export const GameProvider = (props: Props): ReactElement => {
   const [turn, setTurn] = useState(Turn.p1)
   const [players, setPlayers] = useState(defultPlayers)
   const [playingField, setPlayingField] = useState(defaultPlayingField)
+  const [gameOver, setGameOver] = useState(false)
 
   const { children } = props
 
@@ -52,7 +55,9 @@ export const GameProvider = (props: Props): ReactElement => {
     turn,
     setTurn,
     playingField,
-    setPlayingField
+    setPlayingField,
+    gameOver,
+    setGameOver
   }
 
   return (
