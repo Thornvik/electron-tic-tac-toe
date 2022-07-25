@@ -15,10 +15,10 @@ interface TileProps {
 }
 
 const Tile = (props: TileProps) => {
-  const { light, id, socket, disabled, checked } = props
-  const { clickHandler } = useTileClick(checked)
+  const { light, id, socket } = props
+  const { clickHandler } = useTileClick()
   const [classNames, setClassNames] = useState<string>('tile')
-  const { turn, playingField, setPlayingField, players } = useContext(GameContext)
+  const { turn, playingField, players } = useContext(GameContext)
   const { username } = useContext(UserContext)
 
   const winner = checkWin(playingField, players)
