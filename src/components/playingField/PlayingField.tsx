@@ -1,8 +1,10 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { GameContext, Players, Turn } from "../../context/GameContext"
+import { UserContext } from "../../context/UserContext"
+import GameOverModal from "../gameOverModal/GameOverModal"
+import Tiles from "./tiles/Tiles"
 import { checkWin } from "../../utils/CheckWin"
 import './PlayingField.scss'
-import Tiles from "./tiles/Tiles"
 
 interface RoomData {
   players: Players,
@@ -23,13 +25,34 @@ interface PlayingFieldProps {
 
 const PlayingField = (props: PlayingFieldProps) => {
   const { socket } = props
-  let { playingField, setPlayingField, players, setPlayers, setTurn } = useContext(GameContext)
-  const winner = checkWin(playingField, players)
+  const {
+    playingField,
+    setPlayingField,
+    players,
+    setPlayers,
+    setTurn,
+    gameOver,
+    setGameOver,
+    turn
+  } = useContext(GameContext)
+  const { username } = useContext(UserContext)
+  const [winner, setWinner] = useState('')
 
-  useEffect(() => {
-    if (!winner) return
-    alert(winner + ' wins')
-  }, [winner])
+  const replay = () => {
+    socket.emit('replay', [
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      ''
+    ], turn)
+    setWinner('')
+    setGameOver(false)
+  }
 
   useEffect(() => {
     if (socket) {
@@ -41,23 +64,35 @@ const PlayingField = (props: PlayingFieldProps) => {
       socket.on('roomData', (data: RoomData) => {
         setPlayers(data.players)
       })
-    }
 
-  }, [socket, setPlayers, playingField])
+      socket.on('gameEnd', (winner: string) => {
+        setGameOver(true)
+        setWinner(winner)
+      })
+    }
+  }, [socket, setPlayers, playingField, replay])
+
+  useEffect(() => {
+    if(checkWin(playingField, players)) {
+      socket.emit('playerWin', username)
+    }
+  }, [playingField])
 
   return (
-    <div className="playingfield_container">
-      <div className="player">
-        <p>{players.p1.toLocaleUpperCase()}</p>
+    <>
+      { gameOver && <GameOverModal winner={winner} replay={replay} /> }
+      <div className="playingfield_container">
+        <div className="player">
+          <p>{players.p1.toLocaleUpperCase()}</p>
+        </div>
+        <div className="player">
+          <p>{players.p2.toLocaleUpperCase()}</p>
+        </div>
+        <Tiles
+          socket={socket}
+        />
       </div>
-      <div className="player">
-        <p>{players.p2.toLocaleUpperCase()}</p>
-      </div>
-      <Tiles
-        currPlayingField={playingField}
-        socket={socket}
-      />
-    </div>
+    </>
   )
 }
 

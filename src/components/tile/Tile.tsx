@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { checkWin } from '../../utils/CheckWin'
 import { GameContext, Turn } from '../../context/GameContext'
 import { UserContext } from '../../context/UserContext'
 import useTileClick from '../../hooks/useTileClick'
@@ -14,14 +15,24 @@ interface TileProps {
 }
 
 const Tile = (props: TileProps) => {
-  const { light, id, socket, disabled, checked } = props
-  const { clickHandler } = useTileClick(checked)
+  const { light, id, socket } = props
+  const { clickHandler } = useTileClick()
   const [classNames, setClassNames] = useState<string>('tile')
-  const { turn, playingField, setPlayingField, players } = useContext(GameContext)
+  const { turn, playingField, players } = useContext(GameContext)
   const { username } = useContext(UserContext)
 
+  const winner = checkWin(playingField, players)
+
+  useEffect(() => {
+    if (!winner) return
+    socket.emit('playerWin')
+  }, [winner])
+
   const checkClicked = () => {
-    if (playingField[id] === '') return
+    if (playingField[id] === '') {
+      setClassNames('tile')
+      return
+    }
 
     if (playingField[id] === Turn.p1) {
       return setClassNames(classNames + ' tile_clicked--cross')
