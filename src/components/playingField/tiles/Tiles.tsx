@@ -10,7 +10,6 @@ interface TilesProps {
 const Tiles = (props: TilesProps) => {
   const { playingField } = useContext(GameContext)
   const { socket } = props
-  const [currPlayingField, setCurrPlayingField] = useState(playingField)
 
   const isChecked = (id: number, playingField: Array<'' | Turn>) => {
     if (playingField[id] === '') return false
@@ -19,13 +18,9 @@ const Tiles = (props: TilesProps) => {
     }
   }
 
-  useEffect(() => {
-    setCurrPlayingField(playingField)
-  }, [playingField, currPlayingField, setCurrPlayingField])
-
   return (
     <div className="playingfield">
-      {currPlayingField.map((_, i) => (
+      {playingField.map((_, i) => (
         <Tile
           id={i}
           key={i}

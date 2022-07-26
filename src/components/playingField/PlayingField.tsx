@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from "react"
 import { GameContext, Players, Turn } from "../../context/GameContext"
+import { UserContext } from "../../context/UserContext"
 import GameOverModal from "../gameOverModal/GameOverModal"
 import Tiles from "./tiles/Tiles"
+import { checkWin } from "../../utils/CheckWin"
 import './PlayingField.scss'
 
 interface RoomData {
@@ -33,10 +35,11 @@ const PlayingField = (props: PlayingFieldProps) => {
     setGameOver,
     turn
   } = useContext(GameContext)
+  const { username } = useContext(UserContext)
   const [winner, setWinner] = useState('')
 
   const replay = () => {
-    socket.emit('playerMove', [
+    socket.emit('replay', [
       '',
       '',
       '',
@@ -62,12 +65,18 @@ const PlayingField = (props: PlayingFieldProps) => {
         setPlayers(data.players)
       })
 
-      socket.on('victory', (winner: string) => {
+      socket.on('gameEnd', (winner: string) => {
         setGameOver(true)
         setWinner(winner)
       })
     }
   }, [socket, setPlayers, playingField, replay])
+
+  useEffect(() => {
+    if(checkWin(playingField, players)) {
+      socket.emit('playerWin', username)
+    }
+  }, [playingField])
 
   return (
     <>

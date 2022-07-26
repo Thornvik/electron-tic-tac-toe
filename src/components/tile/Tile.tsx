@@ -29,7 +29,10 @@ const Tile = (props: TileProps) => {
   }, [winner])
 
   const checkClicked = () => {
-    if (playingField[id] === '') return
+    if (playingField[id] === '') {
+      setClassNames('tile')
+      return
+    }
 
     if (playingField[id] === Turn.p1) {
       return setClassNames(classNames + ' tile_clicked--cross')
@@ -50,11 +53,6 @@ const Tile = (props: TileProps) => {
       currPlayingField[id] = Turn.p2
       socket.emit('playerMove', currPlayingField, Turn.p1)
       clickHandler(id, turn)
-    }
-
-    if(checkWin(playingField, players)) {
-      console.log(username)
-      socket.emit('playerWin', username)
     }
   }
 
