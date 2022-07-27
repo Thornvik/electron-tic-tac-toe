@@ -4,6 +4,7 @@ import { UserContext } from "../../context/UserContext"
 import GameOverModal from "../gameOverModal/GameOverModal"
 import Tiles from "./tiles/Tiles"
 import { checkWin } from "../../utils/CheckWin"
+import { checkTie } from "../../utils/CheckTie"
 import './PlayingField.scss'
 
 interface RoomData {
@@ -67,7 +68,9 @@ const PlayingField = (props: PlayingFieldProps) => {
 
       socket.on('gameEnd', (winner: string) => {
         setGameOver(true)
-        setWinner(winner)
+        if (winner) {
+          setWinner(winner + ' wins the game!')
+        } else setWinner('The game ends with a tie')
       })
     }
   }, [socket, setPlayers, playingField, replay])
@@ -75,6 +78,8 @@ const PlayingField = (props: PlayingFieldProps) => {
   useEffect(() => {
     if(checkWin(playingField, players)) {
       socket.emit('playerWin', username)
+    } else if (checkTie(playingField)) {
+      socket.emit('gameTie')
     }
   }, [playingField])
 
