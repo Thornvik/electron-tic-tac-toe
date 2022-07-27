@@ -22,7 +22,7 @@ const GameOverModal = (props: GameOverModalInterface) => {
         >
           &#10060;
         </div>
-        <p>{winner} has won</p>
+        <p>{winner}</p>
         <div className="replayOrCancle--container">
           <div
             onClick={() => reloadPage()}
